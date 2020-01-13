@@ -1,40 +1,14 @@
 package Rzutykarne;
 
-import com.almasb.fxgl.animation.AnimatedValue;
-import com.almasb.fxgl.animation.Animation;
-import com.almasb.fxgl.animation.AnimationBuilder;
-import com.almasb.fxgl.animation.Interpolators;
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
-import com.almasb.fxgl.entity.components.IrremovableComponent;
-import com.almasb.fxgl.input.Input;
-import com.almasb.fxgl.input.UserAction;
-import com.almasb.fxgl.physics.CollisionHandler;
-import com.almasb.fxgl.physics.HitBox;
-import com.almasb.fxgl.physics.PhysicsComponent;
-import com.almasb.fxgl.app.GameApplication;
-import com.almasb.fxgl.app.GameSettings;
-import com.almasb.fxgl.app.GameView;
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.texture.Texture;
-import javafx.geometry.Orientation;
-import javafx.scene.Node;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.input.UserAction;
+import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-
-import java.util.Map;
 
 import static com.almasb.fxgl.dsl.FXGL.*;
-import static Rzutykarne.PenaltyShootFactory.*;
 
 public class PenaltyShootApp extends GameApplication
 {
@@ -62,8 +36,13 @@ public class PenaltyShootApp extends GameApplication
             @Override
             protected void onAction()
             {
-                //ball.shoot
-              getGameState().setValue("ballShoot", true);
+                var crosshairPos = playerCrosshair.getEntity().getCenter();
+                var ballPos = football.getEntity().getCenter();
+                var relativePos = new Point2D(crosshairPos.getX() - ballPos.getX(), crosshairPos.getY() - ballPos.getY());
+                System.out.println("Celownik: " + crosshairPos + "Pilka: " + ballPos + " relative: " + relativePos);
+                football.shoot(relativePos);
+
+                // getGameState().setValue("ballShoot", true);
             }
 
             @Override
