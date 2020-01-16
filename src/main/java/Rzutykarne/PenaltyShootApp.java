@@ -40,7 +40,8 @@ public class PenaltyShootApp extends GameApplication
                 var ballPos = football.getEntity().getCenter();
                 var relativePos = new Point2D(crosshairPos.getX() - ballPos.getX(), crosshairPos.getY() - ballPos.getY());
                 System.out.println("Celownik: " + crosshairPos + "Pilka: " + ballPos + " relative: " + relativePos);
-                football.shoot(relativePos);
+
+                football.shoot(relativePos, crosshairPos);
 
                 // getGameState().setValue("ballShoot", true);
             }

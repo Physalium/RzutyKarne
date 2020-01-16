@@ -10,11 +10,14 @@ import static java.lang.Math.signum;
 public class BallComponent extends Component
 {
     private final static int BALL_SPEED = 250;
+    private Point2D crosshairPos;
+
     protected PhysicsComponent physics;
 
-    public void shoot(Point2D position)
+    public void shoot(Point2D position, Point2D crosshairPos)
     {
         physics.setLinearVelocity(position);
+        this.crosshairPos = crosshairPos;
     }
 
     public void stop()
@@ -27,7 +30,7 @@ public class BallComponent extends Component
     {
         System.out.println(entity.getCenter().distance(physics.getLinearVelocity()));
         limitVelocity();
-        if (entity.getCenter().distance(physics.getLinearVelocity()) < 30)
+        if (entity.getCenter().distance(crosshairPos) < 30)
             stop();
     }
 
