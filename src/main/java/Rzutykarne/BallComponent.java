@@ -18,18 +18,20 @@ public class BallComponent extends Component
         if (position.getY() < BALL_SPEED_MIN)
             pos = position.multiply(3);
         physics.setLinearVelocity(pos);
+        physics.setAngularVelocity(200);
         this.crosshairPos = crosshairPos;
     }
 
     public void stop()
     {
         physics.setLinearVelocity(0, 0);
+        physics.setAngularVelocity(0);
     }
 
     @Override
     public void onUpdate(double tpf)
     {
-
+        physics.setAngularVelocity(200);
         if (FXGL.getGameState().getBoolean("ballShoot"))
         {//System.out.println(entity.getCenter().distance(physics.getLinearVelocity()));
             limitVelocity();
