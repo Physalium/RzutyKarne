@@ -43,7 +43,7 @@ public class PenaltyShootApp extends GameApplication
 
                 football.shoot(relativePos, crosshairPos);
 
-                // getGameState().setValue("ballShoot", true);
+                getGameState().setValue("ballShoot", true);
             }
 
             @Override
@@ -133,7 +133,7 @@ public class PenaltyShootApp extends GameApplication
         initBackground();
         initGameObjects();
         getGameState().setValue("ballShoot", false);
-        FXGL.getGameState().<Boolean>addListener("ballShoot",(oldvalue,newvalue)-> playerCrosshair.changeSpeed(newvalue));
+        FXGL.getGameState().<Boolean>addListener("ballShoot", (oldvalue, newvalue) -> playerCrosshair.changeSpeed(newvalue));
 
     }
 
