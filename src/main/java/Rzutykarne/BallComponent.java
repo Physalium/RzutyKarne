@@ -1,8 +1,11 @@
 package Rzutykarne;
 
+import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 import javafx.geometry.Point2D;
+
+import static java.lang.Math.signum;
 
 public class BallComponent extends Component
 {
@@ -23,14 +26,23 @@ public class BallComponent extends Component
     public void onUpdate(double tpf)
     {
         System.out.println(entity.getCenter().distance(physics.getLinearVelocity()));
-        //limitVelocity();
+        limitVelocity();
         if (entity.getCenter().distance(physics.getLinearVelocity()) < 30)
             stop();
     }
 
     private void limitVelocity()
     {
-        //spowalnianie
+        if (FXGLMath.abs(physics.getVelocityX()) < 5 * 60)
+        {
+            physics.setVelocityX(signum(physics.getVelocityX()) * BALL_SPEED);
+        }
+
+        // we don't want the ball to move too fast in Y direction
+        if (FXGLMath.abs(physics.getVelocityY()) > 5 * 60 * 2)
+        {
+            physics.setVelocityY(signum(physics.getVelocityY()) * BALL_SPEED);
+        }
 
     }
 
