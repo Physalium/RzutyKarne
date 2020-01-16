@@ -62,6 +62,7 @@ public class PenaltyShootFactory implements EntityFactory
                 .with(new CollidableComponent(true))
                 .with(new BallComponent())
                 .view(texture("football.png"))
+                .rotationOrigin(25, 25)
 //                .with("velocity", new Point2D(BALL_SPEED, BALL_SPEED))
                 .build();
     }
