@@ -34,7 +34,7 @@ public class BallComponent extends Component
         if (FXGL.getGameState().getBoolean("ballShoot"))
         {//System.out.println(entity.getCenter().distance(physics.getLinearVelocity()));
             limitVelocity();
-            System.out.println(crosshairPos);
+            //System.out.println(crosshairPos);
             if (entity.getCenter().distance(crosshairPos) < 10)
                 stop();
         }

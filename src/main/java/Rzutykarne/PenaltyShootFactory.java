@@ -35,14 +35,13 @@ public class PenaltyShootFactory implements EntityFactory
     {
         PhysicsComponent physics = new PhysicsComponent();
         physics.setBodyType(BodyType.KINEMATIC);
-
         return entityBuilder()
                 .from(data)
                 .type(EntityType.GOALKEEPER)
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new GoalkeeperComponent())
-                .view(texture("keeper-stand.png"))
+                .scale(1.5, 1.5)
                 .build();
     }
 
