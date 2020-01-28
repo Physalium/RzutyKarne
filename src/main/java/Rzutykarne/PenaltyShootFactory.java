@@ -30,7 +30,7 @@ public class PenaltyShootFactory implements EntityFactory
                 .build();
     }
 
-    @Spawns("goalkeeper")
+    @Spawns("keeper")
     public Entity newGoalkeeper(SpawnData data)
     {
         PhysicsComponent physics = new PhysicsComponent();
@@ -42,8 +42,7 @@ public class PenaltyShootFactory implements EntityFactory
                 .with(physics)
                 .with(new CollidableComponent(true))
                 .with(new GoalkeeperComponent())
-                //.viewWithBBox(new Rectangle(BALL_SIZE, BALL_SIZE))
-//                .with("velocity", new Point2D(BALL_SPEED, BALL_SPEED))
+                .view(texture("keeper-stand.png"))
                 .build();
     }
 

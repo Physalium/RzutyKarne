@@ -14,6 +14,7 @@ public class PenaltyShootApp extends GameApplication
 {
     private CrosshairComponent playerCrosshair;
     private BallComponent football;
+    private GoalkeeperComponent keeper;
 
     public static void main(String[] args)
     {
@@ -143,6 +144,8 @@ public class PenaltyShootApp extends GameApplication
         playerCrosshair = crosshair.getComponent(CrosshairComponent.class);
         Entity ball = spawn("ball", getAppWidth() / 2, getAppHeight() - 50);
         football = ball.getComponent(BallComponent.class);
+        Entity goalkeeper = spawn("keeper", getAppWidth() / 2, getAppHeight() / 2);
+        keeper = goalkeeper.getComponent(GoalkeeperComponent.class);
     }
 
 
