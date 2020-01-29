@@ -16,7 +16,7 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class PenaltyShootApp extends GameApplication
 {
-    private CrosshairComponent playerCrosshair;
+    private CrosshairComponent playerCrosshair; // to są klasy odpowiedzialne za zachowanie obiektów w grze
     private BallComponent football;
     private GoalkeeperComponent keeper;
 
@@ -41,23 +41,18 @@ public class PenaltyShootApp extends GameApplication
             @Override
             protected void onAction()
             {
-                if (FXGL.getGameState().getBoolean("ballShoot"))
+                if (FXGL.getGameState().getBoolean("ballShoot")) // jeżeli piłka została już kopnięta to wychodzimy z tej funkcji
                     return;
                 var crosshairPos = playerCrosshair.getEntity().getCenter();
                 var ballPos = football.getEntity().getCenter();
                 var relativePos = new Point2D(crosshairPos.getX() - ballPos.getX(), crosshairPos.getY() - ballPos.getY());
                 //System.out.println("Celownik: " + crosshairPos + "Pilka: " + ballPos + " relative: " + relativePos);
 
-                football.shoot(relativePos, crosshairPos);
-                getGameState().setValue("ballShoot", true);
-                keeper.up();
+                football.shoot(relativePos, crosshairPos); // podajemy do funkcji strzału pozycję celownika w odniesieniu do piłki
+                getGameState().setValue("ballShoot", true); // stała w naszej aplikacji która mówi czy piłka została juz kopnięta
+                keeper.up(); // funkcja rozpoczynająca skok bramkarza
             }
 
-            @Override
-            protected void onActionEnd()
-            {
-                // to do
-            }
 
         }, KeyCode.SPACE);
 
@@ -136,13 +131,13 @@ public class PenaltyShootApp extends GameApplication
     @Override
     protected void initGame()
     {
-        getGameWorld().addEntityFactory(new PenaltyShootFactory());
-        initBackground();
-        initGameObjects();
-        getGameState().setValue("goalText", "Bramkarz jest gotowy, strzelaj.");
+        getGameWorld().addEntityFactory(new PenaltyShootFactory()); // Obiekty "entity" tworzymy poprzez "factory" czyli taką jedną klasę która ma wszystkie metody konstruujące obiekty (wtedy wszystkie konstruktory ma się obok siebie w jednym pliku)
+        initBackground(); // tworzymy tło
+        initGameObjects(); //tworzymy obiekty w grze
+        getGameState().setValue("goalText", "Bramkarz jest gotowy, strzelaj."); // zmienna której tekst wyświetlamy na ekranie
         getGameState().setValue("ballShoot", false);
         FXGL.getGameState().<Boolean>addListener("ballShoot", (oldvalue, newvalue) -> playerCrosshair.changeSpeed(newvalue)
-        );
+        ); // funkcja lambda - jeżeli piłka jest w locie, to wyłączamy ruszanie celownikiem poprzez zmienienie jego predkosci do 0
 
         Text goal = new Text();
         goal.setFont(new Font("verdana", 30));
@@ -151,15 +146,15 @@ public class PenaltyShootApp extends GameApplication
         goal.setTranslateY(100); // y = 100
         goal.textProperty().bind(FXGL.getGameState().stringProperty("goalText"));
 
-        FXGL.getGameScene().addUINode(goal); // add to the scene graph
+        FXGL.getGameScene().addUINode(goal); // dodajemy do aplikacji ten tekst
 
     }
 
     private void initGameObjects()
     {
 
-        Entity goalkeeper = spawn("keeper", getAppWidth() / 2 - 48, getAppHeight() / 2 - 48);
-        keeper = goalkeeper.getComponent(GoalkeeperComponent.class);
+        Entity goalkeeper = spawn("keeper", getAppWidth() / 2 - 48, getAppHeight() / 2 - 48); //odwolanie do konstruktora w Factory
+        keeper = goalkeeper.getComponent(GoalkeeperComponent.class); // przypisanie entity uzyskanego z Factory odpowiedniej klasy Component (Component jest odpowiedzialny za zachowanie obiektu w grze, a Entity za jego wyświetlanie itd od strony programu)
         Entity crosshair = spawn("crosshair", getAppWidth() / 2, getAppHeight() / 2);
         playerCrosshair = crosshair.getComponent(CrosshairComponent.class);
         Entity ball = spawn("ball", getAppWidth() / 2, getAppHeight() - 50);
@@ -170,20 +165,16 @@ public class PenaltyShootApp extends GameApplication
     @Override
     protected void initPhysics()
     {
-        getPhysicsWorld().setGravity(0, 0);
+        getPhysicsWorld().setGravity(0, 0); // to dla jaj
         FXGL.getPhysicsWorld().addCollisionHandler(new CollisionHandler(EntityType.BALL, EntityType.GOALKEEPER)
         {
 
             @Override
             protected void onCollisionBegin(Entity ball, Entity keeper)
             {
-                System.out.println(keeper.getX());
-                System.out.println(ball.getX());
-                if (!keeper.getComponent(GoalkeeperComponent.class).physics.isMoving())
-                {
-                    getGameState().setValue("goalText", "Gol!");
 
-                }
+                getGameState().setValue("goalText", "Brak gola."); //jeżeli jest kolizja bramkarz piłka -> nie ma gola
+
 
             }
         });

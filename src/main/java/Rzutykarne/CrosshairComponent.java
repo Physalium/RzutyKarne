@@ -1,14 +1,13 @@
 package Rzutykarne;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.physics.PhysicsComponent;
 
 public class CrosshairComponent extends Component
 {
     private static int CROSSHAIR_SPEED = 250;
-    protected PhysicsComponent physics;
+    protected PhysicsComponent physics; // ustawiliśmy żeby w naszej grze była fizyka (czyli ze np nie teleportujemy pilki, tylko nadajemy jej predkosc), więc każdy obiekt dostaje takie pole
 
     public void changeSpeed(boolean value)
     {

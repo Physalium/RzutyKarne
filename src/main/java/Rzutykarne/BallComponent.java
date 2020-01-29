@@ -8,9 +8,8 @@ import javafx.geometry.Point2D;
 public class BallComponent extends Component
 {
     private final static int BALL_SPEED_MIN = 250;
-    private Point2D crosshairPos;
-
     protected PhysicsComponent physics;
+    private Point2D crosshairPos;
 
     public void shoot(Point2D position, Point2D crosshairPos)
     {
@@ -33,17 +32,12 @@ public class BallComponent extends Component
     {
         if (FXGL.getGameState().getBoolean("ballShoot"))
         {//System.out.println(entity.getCenter().distance(physics.getLinearVelocity()));
-            limitVelocity();
             //System.out.println(crosshairPos);
             if (entity.getCenter().distance(crosshairPos) < 10)
-                stop();
+                stop(); // jeżeli pilka jest już obok celownika to przestaje sie ruszac
+
         }
     }
 
-    private void limitVelocity()
-    {
-
-
-    }
 
 }
